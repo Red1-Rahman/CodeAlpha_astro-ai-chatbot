@@ -1,0 +1,233 @@
+/* Setting up CSS variables for seamless theme switching.
+   Defaulting to light mode here, but will override with dark mode based on system/user preference.
+*/
+:root {
+    --font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    
+    /* Light Mode Palette */
+    --bg-window: #f6f8fa;
+    --bg-chat: #ffffff;
+    --border-color: #d0d7de;
+    --text-main: #24292f;
+    --text-muted: #57606a;
+    --bot-msg-bg: #f3f4f6;
+    --user-msg-bg: #e1e4e8;
+    
+    /* Premium Orange Accent */
+    --accent-orange: #ea580c; 
+    --accent-hover: #c2410c;
+}
+
+/* The dark theme uses the GitHub-inspired palette specified.
+   This activates when the data-theme attribute is added to the HTML tag.
+*/
+[data-theme="dark"] {
+    --bg-window: #0D1117;
+    --bg-chat: #151b22;
+    --border-color: #3d444d;
+    --text-main: #c9d1d9;
+    --text-muted: #8b949e;
+    --bot-msg-bg: #21262d;
+    --user-msg-bg: #30363d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+}
+
+body {
+    background-color: var(--bg-window);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 550px;
+    height: 85vh;
+    background-color: var(--bg-chat);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-chat);
+}
+
+.header-info h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.header-info p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+#theme-toggle:hover {
+    background-color: var(--bot-msg-bg);
+    color: var(--text-main);
+}
+
+.chat-box {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Custom scrollbar for a premium feel */
+.chat-box::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-box::-webkit-scrollbar-track {
+    background: transparent;
+}
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 10px;
+}
+
+.message {
+    max-width: 85%;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-content {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.bot-message {
+    align-self: flex-start;
+}
+
+.bot-message .message-content {
+    background-color: var(--bot-msg-bg);
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 4px;
+}
+
+.user-message {
+    align-self: flex-end;
+}
+
+.user-message .message-content {
+    background-color: var(--user-msg-bg);
+    border-bottom-right-radius: 4px;
+}
+
+/* Markdown parsing styles for backend links/lists */
+.bot-message a {
+    color: var(--accent-orange);
+    text-decoration: none;
+    font-weight: 500;
+}
+.bot-message a:hover {
+    text-decoration: underline;
+}
+.bot-message ul {
+    margin-left: 20px;
+    margin-top: 8px;
+}
+.bot-message p:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-chat);
+    gap: 12px;
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px 16px;
+    background-color: var(--bg-window);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-main);
+    outline: none;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+}
+
+#user-input:focus {
+    border-color: var(--accent-orange);
+}
+
+#send-btn {
+    background-color: var(--accent-orange);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#send-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Related question buttons injected by JS */
+.related-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 8px 12px;
+    margin-top: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+.related-btn:hover {
+    border-color: var(--accent-orange);
+    color: var(--text-main);
+}
