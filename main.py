@@ -41,6 +41,11 @@ app.mount("/assets", StaticFiles(directory=BASE_DIR / "frontend"), name="assets"
 async def serve_frontend():
     return FileResponse(BASE_DIR / "frontend/index.html")
 
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    # This catches the browser's automatic background request
+    return FileResponse(BASE_DIR / "frontend/favicon.ico")    
+
 # Main API endpoint (match → format → return)
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
